@@ -18,6 +18,11 @@ dependencies = [
     "seaborn>=0.13.2",
     "xgboost>=3.0.4",
     "kagglehub",
+    "holidays",
+    "statsmodels",
+    "files",
+    "storage",
+    "google-cloud-storage",
     "optuna-integration[mlflow]",
 ]
 
