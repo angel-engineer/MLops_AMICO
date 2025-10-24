@@ -24,6 +24,7 @@ dependencies = [
     "storage",
     "google-cloud-storage",
     "optuna-integration[mlflow]",
+    "tensorflow",
 ]
 
 [tool.uv.workspace]
