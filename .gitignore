@@ -95,8 +95,6 @@ dmypy.json
 *.parquet
 *.h5
 *.hdf5
-*.pkl
-*.pickle
 *.joblib
 *.pth
 *.pt
