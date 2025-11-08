@@ -117,7 +117,7 @@ class FeatureEngineer:
             scaler = StandardScaler()
             scaled.loc[mask, features] = scaler.fit_transform(scaled.loc[mask, features])
 
-        return datos_aws_day 
+        return scaled 
     
     def create_features_etiquetaol(self):
         # 1. Definir las columnas numéricas (excluimos 'mahalanobis_distance' previa y no numéricas)

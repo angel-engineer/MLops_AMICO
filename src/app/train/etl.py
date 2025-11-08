@@ -14,14 +14,6 @@ class GetData:
     def __init__(self, s3_url="s3://amico-udem/DataModels/costs.csv"):
         self.s3_url = s3_url
     
-    def download_createdf(self):
-        # ---------- 0. configuración ----------
-        # Este método es para carga local (como backup o alternativa)
-        CSV_PATH = "/Users/angeleduardogamarrarios/Repositorio_UDEM/MLops_AMICO/data/costs.csv" 
-        # ---------- 1. carga  ----------
-        df = pd.read_csv(CSV_PATH)
-        return df # CORREGIDO: Retornar el DataFrame, no None
-
 
     def download_data(self):
         print(f"La carga se realizará directamente desde S3: {self.s3_url}")
