@@ -57,53 +57,36 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 # Se importan las funciones
 from sklearn.metrics import  mean_absolute_error
 
+import pandas as pd # Asumo que usas pandas
 
 class FeatureEngineer:
     def __init__(self, df):
         self.df = df
     
     def create_features(self):
+        df_local = self.df.copy() 
+
         # eliminar fila de Service total y columna de total costs
-        df = df[df['Service'] != 'Service total']
-        df = df.drop('Total costs($)', axis=1)
+        df_local = df_local[df_local['Service'] != 'Service total']
+        df_local = df_local.drop('Total costs($)', axis=1)
 
         # convertir columna de fecha en indice
-        df['Service'] = pd.to_datetime(df['Service'])
-        df = df.rename(columns={'Service':'date'}).sort_values('date').set_index('date')
+        df_local['Service'] = pd.to_datetime(df_local['Service'])
+        df_local = df_local.rename(columns={'Service':'date'}).sort_values('date').set_index('date')
 
         # forzar numérico y revisar columnas
-        df = df.apply(pd.to_numeric, errors='coerce')
-        num_cols = df.columns.tolist()
+        df_local = df_local.apply(pd.to_numeric, errors='coerce')
+        # num_cols = df_local.columns.tolist() # Esta línea no es necesaria si no la usas
 
         # ---------- 3. imputación ----------
         # Strategy: cambiar a 0 los valores nulos
-        df_imputed = df.fillna(0)
+        df_imputed = df_local.fillna(0)
 
         return df_imputed
     
-    def create_features_bc(self):
-
-        # ---------- Box-Cox selectivo para normalizar las varibles ----------
-        # Aplicar Box-Cox solo a columnas muy sesgadas (skew > 1)
-        skewed_cols = skewness[skewness > 1].index.tolist()
-        df_bc = df_imputed.copy()
-
-        for c in skewed_cols:
-            # Box-Cox exige valores > 0. si hay ceros o negativos shift pequeño
-            min_val = df_bc[c].min()
-            shift = 0.0 if min_val > 0 else abs(min_val) + 1e-6
-            try:
-                transformed, lam = boxcox(df_bc[c] + shift)
-                df_bc[c] = transformed
-                print(f"Box-Cox aplicado a {c}, lambda={lam:.4f}")
-            except Exception as e:
-                # fallback log1p si falla
-                df_bc[c] = np.log1p(df_bc[c] + shift)
-                print(f"Box-Cox falló en {c}, aplicado log1p")
-
-        return df_bc    
-    
-    def create_features_day(self):
+    def create_features_day(self,df_in):
+        df_bc=df_in
+        num_cols = df_bc.columns.tolist()
             # ---------- 5. normalización por día de la semana ----------
         df_bc['day_of_week'] = df_bc.index.day_name()
         scaled = df_bc.copy()
@@ -119,7 +102,8 @@ class FeatureEngineer:
 
         return scaled 
     
-    def create_features_etiquetaol(self):
+    def create_features_etiquetado(self,df_in):
+        scaled=df_in
         # 1. Definir las columnas numéricas (excluimos 'mahalanobis_distance' previa y no numéricas)
         numerical_cols = [
             'Relational Database Service($)',
