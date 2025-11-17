@@ -9,6 +9,9 @@ Para ejecutra wine\_quality\_prefect.py seguir los siguenbtes pasos:
 3. levantar prefect asi MLOPS\_CML/scr/app/traind uv run prefect server start
 4. ejecutar el PY wine\_quiality\_prefect.py
 
-
-
 comd+sift+p restaurar_kernel
+
+
+Ejecuta : !mlflow ui --port 5000
+
+Luego abre** **[http://localhost:5000]() en tu navegador.
