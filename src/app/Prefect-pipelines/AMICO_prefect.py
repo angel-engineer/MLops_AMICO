@@ -290,10 +290,10 @@ def train_iso_forest(X_train, y_train, X_test, y_test) -> str:
     with mlflow.start_run(nested=True) as run:
 
         params = {
-            "n_estimators": 50,
-            "max_samples": 0.9,
-            "contamination": 0.001,
-            "max_features": 0.7,
+            "n_estimators": 10,
+            "max_samples": 0.29775849710689867,
+            "contamination": 0.0717176502157413,
+            "max_features": 0.5310605708595397,
             "random_state": 42,
             "bootstrap": False
         }
